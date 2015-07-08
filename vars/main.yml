@@ -1,0 +1,3 @@
+---
+# List of packages to install
+ferm_packages: [ 'ferm' ]

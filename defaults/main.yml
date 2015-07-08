@@ -3,11 +3,8 @@
 # true, but you may need set both `ferm` and this to ``False`` if you
 # are running in some container and are not allowed to change
 # iptables.
-ferm_disable: no
+ferm_disabled: no
 ferm_flush: '{{ ferm | bool }}'
-
-# List of packages to install
-ferm_packages: [ 'ferm' ]
 
 # List of iptables domains enabled in main ferm firewall
 # Currently supported domains:

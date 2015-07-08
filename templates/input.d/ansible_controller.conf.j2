@@ -12,14 +12,7 @@ Required:
 #}
 
 {% set ferm_tpl_local_ansible_controllers = [] %}
-{% if ((ansible_local is defined and ansible_local) and
-       (ansible_local.ferm is defined and ansible_local.ferm) and
-       (ansible_local.ferm.ansible_controllers is defined and ansible_local.ferm.ansible_controllers)) %}
-{%   for element in ansible_local.ferm.ansible_controllers %}
-{%     set _ = ferm_tpl_local_ansible_controllers.append(element) %}
-{%   endfor %}
-{% endif %}
-{% if ferm_ansible_controllers is defined and ferm_ansible_controllers %}
+{% if ferm_ansible_controllers %}
 {%   for element in ferm_ansible_controllers %}
 {%     if element not in ferm_tpl_local_ansible_controllers %}
 {%       set _ = ferm_tpl_local_ansible_controllers.append(element) %}

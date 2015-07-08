@@ -37,7 +37,7 @@
 
 - name: Allow SSH access from Ansible Controller
   template:
-    src: 'ansible_controller.conf.j2'
+    src: 'input.d/ansible_controller.conf.j2'
     dest: '/etc/ferm/filter-input.d/10_ansible_controller.conf'
     owner: 'root'
     group: 'adm'
@@ -67,7 +67,7 @@
 
 - name: Configure ip(6)tables rules
   template:
-    src: '{{ item.type }}.conf.j2'
+    src: 'input.d/{{ item.type }}.conf.j2'
     dest: '/etc/ferm/ferm.d/{{ item.weight | default("50") }}_{{ item.filename | default(item.type + "_" + item.name | default((item.dport[0] if item.dport|d() else "rules"))) }}.conf'
     owner: 'root'
     group: 'adm'
@@ -94,7 +94,7 @@
 
 - name: Configure iptables INPUT rules
   template:
-    src: '{{ item.type }}.conf.j2'
+    src: 'input.d/{{ item.type }}.conf.j2'
     dest: '/etc/ferm/filter-input.d/{{ item.weight | default("50") }}_{{ item.filename | default(item.type + "_" + item.name | default((item.dport[0] if item.dport|d() else "rules"))) }}.conf'
     owner: 'root'
     group: 'adm'
@@ -114,7 +114,7 @@
 - name: Clear iptables rules if ferm is disabled
   command: ferm --flush /etc/ferm/ferm.conf
   changed_when: False
-  when: ferm_disable
+  when: ferm_disabled
 
 - name: Configure sysctl
   template:
