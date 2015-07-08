@@ -13,12 +13,22 @@ to setup firewall rules for other services.
 
 This role requires at least Ansible `v1.7.0`. To install it, run:
 
-    ansible-galaxy install leucos.ferm
+    ansible-galaxy install https://github.com/leucos/ansible-ferm.git
 
 ### Documentation
 
-More information about `debops.ferm` can be found in the
-[official debops.ferm documentation](http://docs.debops.org/en/latest/ansible/roles/debops.ferm.html).
+Example use:
+
+    dependencies:
+      - role: ansible-ferm
+        name: ansible-ferm
+        src: https://github.com/leucos/ansible-ferm.git
+        ferm_input_group_list:
+          - type: 'dport_accept'
+            dport: [ '80' ]
+            saddr: '{{ some_ansible_group }}'
+            weight: '50'
+            filename: 'gluster_accept'
 
 ### Authors and license
 
