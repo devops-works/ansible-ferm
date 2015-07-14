@@ -1,5 +1,22 @@
 ---
+---
+galaxy_info:
+  author: Michel Blanc
+  description: Ferm role, derived from debops
+  license: MIT
+  min_ansible_version: 1.8
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+      - all
+  categories:
+    - system
 
 dependencies:
-  - ansible-sysctl
+  - role: ansible-sysctl
+    src: https://github.com/leucos/ansible-sysctl.git
+
 
