@@ -16,6 +16,7 @@ galaxy_info:
 
 dependencies:
   - role: ansible-sysctl
+    name: ansible-sysctl
     src: https://github.com/leucos/ansible-sysctl.git
 
 
