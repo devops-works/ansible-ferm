@@ -2,7 +2,7 @@
 ---
 galaxy_info:
   author: Michel Blanc
-  description: Ferm role, derived from debops
+  description: "Ferm role, derived from debops"
   license: MIT
   min_ansible_version: 1.8
   platforms:
