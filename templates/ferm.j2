@@ -12,9 +12,9 @@ CACHE=no
 OPTIONS=
 
 # Enable the ferm init script? (i.e. run on bootup)
-{% if ferm_disabled %}
-ENABLED="no"
-{% else %}
+{% if ferm_enabled %}
 ENABLED="yes"
+{% else %}
+ENABLED="no"
 {% endif %}
 

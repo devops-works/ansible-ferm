@@ -1,6 +1,6 @@
 # This file is managed by Ansible, all changes will be lost
 
-{% if not ferm_disabled %}
+{% if ferm_enabled %}
 # Enable reverse path filtering
 net.ipv4.conf.default.rp_filter = 1
 net.ipv4.conf.all.rp_filter = 1

@@ -2,7 +2,7 @@
 
 # This file is managed by Ansible, all changes will be lost
 
-{% if not ferm_disabled %}
+{% if ferm_enabled %}
 {% if ferm_forward %}
 {% if ferm_external_interfaces %}
 {% for interface in ferm_external_interfaces | unique %}

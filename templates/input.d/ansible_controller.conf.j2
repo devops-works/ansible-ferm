@@ -26,7 +26,7 @@ Required:
 {% endif %}
 {% set ferm_tpl_local_ansible_controllers_result = ferm_tpl_local_ansible_controllers | unique | sort %}
 {% if ferm_tpl_local_ansible_controllers_result is defined and ferm_tpl_local_ansible_controllers_result %}
-protocol tcp dport ssh {
+protocol tcp dport {{ ssh_port | default('ssh') }} {
 	@def $ITEMS = ( @ipfilter( ({{ ferm_tpl_local_ansible_controllers_result | unique | join(" ") }}) ) );
 	@if @ne($ITEMS,"") {
 		saddr $ITEMS ACCEPT;

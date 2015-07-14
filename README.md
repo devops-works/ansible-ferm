@@ -17,7 +17,7 @@ This role requires at least Ansible `v1.7.0`. To install it, run:
 
 ### Documentation
 
-Example use:
+You can use this role as a simple dependency:
 
     dependencies:
       - role: ansible-ferm
@@ -30,14 +30,23 @@ Example use:
             weight: '50'
             filename: 'gluster_accept'
 
-### Authors and license
+If you need more control, you can skip the `ferm_input_group_list` part
+and push specific templates from your role.
 
-`ferm` role was written by:
-- Maciej Delmanowski | [e-mail](mailto:drybjed@gmail.com) | [Twitter](https://twitter.com/drybjed) | [GitHub](https://github.com/drybjed)
+See [ansible-pxc](https://github.com/leucos/ansible-pxc.git) role for this.
 
-and adapted by
-- Michel Blanc | [Twitter](https://twitter.com/b9m) | [GitHub](https://github.com/leucos)
+### Issues
 
-License: [GPLv3](https://tldrlegal.com/license/gnu-general-public-license-v3-%28gpl-3%29)
+This role is WIP and lacks tests.
+
+### Authors
+
+This role is based on `ferm` role written by [Maciej Delmanowski](https://github.com/drybjed) of [DebOps](https://github.com/debops) fame.
+
+Adapted by Michel Blanc ([Twitter](https://twitter.com/b9m) | [GitHub](https://github.com/leucos)
+
+### Licence
+
+License: [MIT](http://opensource.org/licenses/MIT)
 
 

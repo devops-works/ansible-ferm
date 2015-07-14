@@ -1,0 +1,3 @@
+- name: Checking that ferm_ansible_controllers is not empty
+  fail: msg="ferm_ansible_controllers is not defined ! This is critical to maintain access via SSH"
+  when: not ferm_ansible_controllers is sequence or not ferm_ansible_controllers|length
