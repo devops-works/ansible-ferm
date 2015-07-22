@@ -1,3 +1,4 @@
+{# PROTOCOL #}
 {% set ferm_tpl_protocol = [] %}
 {% if item.protocol is defined %}
 {%   if item.protocol is string %}
@@ -16,6 +17,7 @@
 {%     endfor %}
 {%   endif %}
 {% endif %}
+{# STATE #}
 {% set ferm_tpl_state = item.default_state | default('enabled') %}
 {% if item.disabled is defined %}
 {%   set ferm_tpl_state = 'enabled' %}
@@ -42,19 +44,23 @@
 {% else %}
 {%   set ferm_tpl_state = 'enabled' %}
 {% endif %}
+{# SOURCES #}
 {# Check if saddr is a real IP or a group name #}
 {% set ferm_tpl_srcs = [] %}
-{% if item.saddr | ipaddr %}
-{#   this is an IP #}
-{%   set _ = ferm_tpl_srcs.append(item.saddr) %}
-{% elif item.saddr in groups %}
-{#   we have a group name #}
-{%   for hst in groups[item.saddr] %}
-{%     for addr in hostvars[hst]['ansible_all_ipv4_addresses'] %}
-{%       set _ = ferm_tpl_srcs.append(addr) %}
+{% for src in item.saddr %}
+{%   if src | ipaddr %}
+{#     this is an IP #}
+{%     set _ = ferm_tpl_srcs.append(src) %}
+{%   elif src in groups %}
+{#     we have a group name #}
+{%     for hst in groups[src] %}
+{%       set _ = ferm_tpl_srcs.append(hostvars[hst]['ansible_all_ipv4_addresses']|join(" ")) %}
 {%     endfor %}
-{%   endfor %}
-{% else %}
-{#   this is a single host #}
-{%   set _ = ferm_tpl_srcs.append(hostvars[item.saddr]['ansible_all_ipv4_addresses']) %}
-{% endif %}
+{%   elif src in hostvars %}
+{#     this is a single host, known to Ansible #}
+{%     set _ = ferm_tpl_srcs.append(hostvars[src]['ansible_all_ipv4_addresses']|join(" ")) %}
+{%   else %}
+{#     this is a single hostname unknown to Ansible #}
+{%     set _ = ferm_tpl_srcs.append("@resolve(" + src + ")") %}
+{%   endif %}
+{% endfor %}
