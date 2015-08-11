@@ -12,6 +12,7 @@ Required:
 #}
 
 {% set ferm_tpl_local_ansible_controllers = [] %}
+{% set ferm_tpl_local_ssh_ports = ['22' | default('ssh')] %}
 {% if ferm_ansible_controllers %}
 {%   for element in ferm_ansible_controllers %}
 {%     if element not in ferm_tpl_local_ansible_controllers %}
@@ -24,17 +25,18 @@ Required:
 {%     set _ = ferm_tpl_local_ansible_controllers.append(ansible_controller) %}
 {%   endif %}
 {% endif %}
+{% if ssh_port is defined %}
+{%   set _ = ferm_tpl_local_ssh_ports.append(ssh_port) %}
+{% endif %}
 {% set ferm_tpl_local_ansible_controllers_result = ferm_tpl_local_ansible_controllers | unique | sort %}
 {% if ferm_tpl_local_ansible_controllers_result is defined and ferm_tpl_local_ansible_controllers_result %}
-protocol tcp dport {{ ssh_port | default('ssh') }} {
-	@def $ITEMS = ( @ipfilter( ({{ ferm_tpl_local_ansible_controllers_result | unique | join(" ") }}) ) );
-	@if @ne($ITEMS,"") {
-		saddr $ITEMS ACCEPT;
-	}
+protocol tcp dport ({{ ferm_tpl_local_ssh_ports | join(' ') }}) {
+  @def $ITEMS = ( @ipfilter( ({{ ferm_tpl_local_ansible_controllers_result | unique | join(" ") }}) ) );
+  @if @ne($ITEMS,"") {
+    saddr $ITEMS ACCEPT;
+  }
 }
 {% else %}
 # ansible_controller is not set, but this shouldn't be here.
 # Something went wrong, re-run the 'ferm' role.
 {% endif %}
-
-

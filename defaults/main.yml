@@ -98,4 +98,3 @@ ferm_external_interfaces:
 # List of interfaces that are connected to internal network, traffic on these
 # interfaces will be forwarded only between hosts on that network
 ferm_internal_interfaces: [ 'eth1' ]
-
