@@ -2,6 +2,10 @@
 # Do we auto whitelist all hosts in inventory ?
 # # This will allow everything from them, re take them out of rate limiting
 ferm_auto_whitelist: true
+
+# Wheteher we have to provision rules for docker
+ferm_docker: false
+
 ferm_enabled: yes
 # Should ferm-rules be flushed when ferm is disabled? The default is
 # true, but you may need set both `ferm` and this to ``False`` if you

@@ -42,8 +42,25 @@
 @def $whitelist = ({{ friends | unique | join(" ")  }});
 {% endif %}
 
-domain $domains table filter {
+{% if ferm_docker %}
+domain $domains table nat {
+  chain DOCKER;
+  chain PREROUTING {
+    mod addrtype dst-type LOCAL jump DOCKER;
+  }
+  chain OUTPUT {
+    daddr !127.0.0.0/8 mod addrtype dst-type LOCAL jump DOCKER;
+  }
+  chain POSTROUTING {
+    saddr 172.17.0.0/16 outerface !docker0 MASQUERADE;
+  }
+}
+{% endif %}
 
+domain $domains table filter {
+{% if ferm_docker %}
+  chain DOCKER;
+{% endif %}
   # Default chain policy
   chain INPUT    policy {{ ferm_default_policy_input   | default('DROP') }};
   chain OUTPUT   policy {{ ferm_default_policy_output  | default('ACCEPT') }};
@@ -75,6 +92,14 @@ domain $domains table filter {
     protocol icmp ACCEPT;
 {% endif %}
   }
+
+{% if ferm_docker %}
+  chain FORWARD {
+    outerface docker0 mod conntrack ctstate (RELATED ESTABLISHED) ACCEPT;
+    interface docker0 outerface !docker0 ACCEPT;
+    interface docker0 outerface docker0 ACCEPT;
+  }
+{% endif %}
 
   chain (INPUT OUTPUT FORWARD) {
 
@@ -109,11 +134,11 @@ domain $domains table filter {
           hashlimit-name SYN-flood
           hashlimit-htable-expire 3600000
       RETURN;
-{% if ferm_log_issues is defined and ferm_log_issues %}
+{%   if ferm_log_issues is defined and ferm_log_issues %}
       mod limit limit 3/hour limit-burst 5 {
         LOG log-prefix "iptables-SYN-flood: ";
       }
-{% endif %}
+{%   endif %}
       REJECT reject-with icmp-admin-prohibited;
     }
 
@@ -121,11 +146,11 @@ domain $domains table filter {
 {% if ferm_filter_recent|d() and ferm_filter_recent %}
     # Drop connections from bad guys
     mod recent name "{{ ferm_block_recent }}" update seconds {{ ferm_block_time }} {
-{% if ferm_log_issues is defined and ferm_log_issues %}
+{%   if ferm_log_issues is defined and ferm_log_issues %}
       mod limit limit 3/hour limit-burst 5 {
         LOG log-prefix "iptables-recent-{{ ferm_block_recent }}: " log-level warning;
       }
-{% endif %}
+{%   endif %}
       REJECT reject-with icmp-admin-prohibited;
     }
 
