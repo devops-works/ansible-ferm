@@ -1,5 +1,6 @@
 #
-# {{ ansible_managed }}
+# Ansible managed
+# ansible-ferm/templates/ferm.conf.j2
 #
 # iptables firewall managed by ferm
 
@@ -30,7 +31,7 @@
 {%     endif -%}
 {%   endfor -%}
 
-@def $auto_whitelist = ({{ friends | unique | join(" ")  }});
+@def $auto_whitelist = ({{ friends | unique | join(" ") }});
 {% endif %}
 
 {% if ferm_whitelist %}
@@ -39,7 +40,16 @@
 {%-    set _ = friends.append(ip) -%}
 {%   endfor -%}
 
-@def $whitelist = ({{ friends | unique | join(" ")  }});
+@def $whitelist = ({{ friends | unique | join(" ") }});
+{% endif %}
+
+{% if ferm_blacklist %}
+{%   set foes = [] -%}
+{%-  for ip in ferm_blacklist %}
+{%-    set _ = foes.append(ip) -%}
+{%   endfor -%}
+
+@def $blacklist = ({{ foes | unique | join(" ") }});
 {% endif %}
 
 {% if ferm_docker %}
@@ -120,6 +130,21 @@ domain $domains table filter {
   chain INPUT {
     protocol tcp syn @subchain "WHITELIST" {
       saddr ( @ipfilter( $whitelist ) ) ACCEPT;
+    }
+  }
+{% endif %}
+
+{% if ferm_blacklist %}
+  chain INPUT {
+    protocol tcp syn @subchain "BLACKLIST" {
+      saddr ( @ipfilter( $blacklist ) ) {
+{%   if ferm_log_issues is defined and ferm_log_issues %}
+        mod limit limit 3/hour limit-burst 5 {
+          LOG log-prefix "iptables-BLACKLIST: ";
+        }
+{%   endif %}
+        REJECT;
+      }
     }
   }
 {% endif %}

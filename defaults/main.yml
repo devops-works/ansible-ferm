@@ -106,4 +106,5 @@ ferm_external_interfaces:
 # interfaces will be forwarded only between hosts on that network
 ferm_internal_interfaces: [ 'eth1' ]
 
+ferm_blacklist: false
 ferm_whitelist: false
