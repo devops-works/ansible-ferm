@@ -123,6 +123,12 @@ domain $domains table filter {
     protocol tcp syn @subchain "AUTO_WHITELIST" {
       saddr ( @ipfilter( $auto_whitelist ) ) ACCEPT;
     }
+    protocol udp @subchain "AUTO_WHITELIST" {
+      saddr ( @ipfilter( $auto_whitelist ) ) ACCEPT;
+    }
+    protocol icmp @subchain "AUTO_WHITELIST" {
+      saddr ( @ipfilter( $auto_whitelist ) ) ACCEPT;
+    }
   }
 {% endif %}
 
