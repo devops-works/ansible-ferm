@@ -4,7 +4,7 @@
     name: '{{ item }}'
     state: 'present'
     install_recommends: 'no'
-  with_items: ferm_packages
+  with_items: [ "{{ ferm_packages }}" ]
 
 - name: Create configuration directories
   file:
@@ -58,10 +58,10 @@
     path: '/etc/ferm/ferm.d/{{ item.weight | default("50") }}_{{ item.filename | default(item.type + "_" + item.name | default((item.dport[0] if item.dport|d() else "rules"))) }}.conf'
     state: 'absent'
   with_flattened:
-    - ferm_rules
-    - ferm_group_rules
-    - ferm_host_rules
-    - ferm_dependent_rules
+    - "{{ ferm_rules }}"
+    - "{{ ferm_group_rules }}"
+    - "{{ ferm_host_rules }}"
+    - "{{ ferm_dependent_rules }}"
   when: ((item.type is defined and item.type) and
          (item.delete is defined and item.delete | bool))
 
