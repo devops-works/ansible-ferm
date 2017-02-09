@@ -73,10 +73,10 @@
     group: 'adm'
     mode: '0644'
   with_flattened:
-    - ferm_rules
-    - ferm_group_rules
-    - ferm_host_rules
-    - ferm_dependent_rules
+    - "{{ ferm_rules }}"
+    - "{{ ferm_group_rules }}"
+    - "{{ ferm_host_rules }}"
+    - "{{ ferm_dependent_rules }}"
   when: ((item.type is defined and item.type) and
          (item.delete is undefined or not item.delete | bool))
 
@@ -85,10 +85,10 @@
     path: '/etc/ferm/filter-input.d/{{ item.weight | default("50") }}_{{ item.filename | default(item.type + "_" + item.name | default((item.dport[0] if item.dport|d() else "rules"))) }}.conf'
     state: 'absent'
   with_flattened:
-    - ferm_input_list
-    - ferm_input_group_list
-    - ferm_input_host_list
-    - ferm_input_dependent_list
+    - "{{ ferm_input_list }}"
+    - "{{ ferm_input_group_list }}"
+    - "{{ ferm_input_host_list }}"
+    - "{{ ferm_input_dependent_list }}"
   when: ((item.type is defined and item.type) and
          (item.delete is defined and item.delete | bool))
 
@@ -100,10 +100,10 @@
     group: 'adm'
     mode: '0644'
   with_flattened:
-    - ferm_input_list
-    - ferm_input_group_list
-    - ferm_input_host_list
-    - ferm_input_dependent_list
+    - "{{ ferm_input_list }}"
+    - "{{ ferm_input_group_list }}"
+    - "{{ ferm_input_host_list }}"
+    - "{{ ferm_input_dependent_list }}"
   when: ((item.type is defined and item.type) and
          (item.delete is undefined or not item.delete | bool))
 
