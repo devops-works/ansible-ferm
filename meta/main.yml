@@ -18,6 +18,4 @@ dependencies:
   - src: git+ssh://git@github.com/leucos/ansible-sysctl.git
     name: ansible-sysctl
 
-  #  - "git+ssh://git@github.com/leucos/ansible-sysctl.git,,ansible-sysctl"
-
 
