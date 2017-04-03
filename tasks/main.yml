@@ -1,2 +1,5 @@
-- include: check_vars.yml tags=ferm,check
-- include: ferm.yml tags=ferm
+- include: check_vars.yml
+  tags: ["ferm","check"]
+
+- include: ferm.yml 
+  tags: ["ferm"]
