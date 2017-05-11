@@ -31,7 +31,7 @@
 {%-        set _ = friends.append(iface) -%}
 {%       endfor -%}
 {%     endif -%}
-{%   endfor -%}
+{%   endfor %}
 
 @def $auto_whitelist = ({{ friends | unique | join(" ") }});
 {% endif %}
