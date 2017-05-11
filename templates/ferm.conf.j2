@@ -25,7 +25,7 @@
 # Auto whitelisting
 {%   set friends = [] -%}
 {%-  for node in groups.all %}
-{{ node }}
+# {{ node }} 
 {%-    if 'ansible_all_ipv4_addresses' in hostvars[node] %}
 {%-      for iface in hostvars[node].ansible_all_ipv4_addresses %}
 {%-        set _ = friends.append(iface) -%}
