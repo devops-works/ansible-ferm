@@ -11,21 +11,21 @@
 List of parameters:
 
 Optional:
-  item.dport		list of destination ports to configure
+  item.dport		    list of destination ports to configure
   item.protocol(s)	list of protocols to configure (tcp, udp)
-  item.saddr		list of source addresses to accept
-  item.accept_any	accept connections from any IP address if True
-  item.disabled		if True, disable the rule (can be used to toggle rule via variable)
-  item.enabled		if True, enable the rule (can be used to toggle rule via variable)
-  item.include          include custom file or command output
-  item.jump		jump tp specified chain
+  item.saddr		    list of source addresses to accept
+  item.accept_any	  accept connections from any IP address if True
+  item.disabled		  if True, disable the rule (can be used to toggle rule via variable)
+  item.enabled		  if True, enable the rule (can be used to toggle rule via variable)
+  item.include      include custom file or command output
+  item.Jump         jump tp specified chain
 
 #}
 
 {% if var.ferm_tpl_state == 'enabled' %}
 {% if var.ferm_tpl_protocol or item.dport|d() %}protocol ({{ (var.ferm_tpl_protocol if var.ferm_tpl_protocol else ['tcp']) | join(' ') }}){% endif %}{% if item.dport|d() %} dport ({{ item.dport | join(' ') }}){% endif %}{% if var.ferm_tpl_protocol or item.dport|d() %} {% endif %}{
 {% if item.saddr is defined and item.saddr %}
-	@def $ITEMS = ( @ipfilter( ({{ var.ferm_tpl_srcs | join(" ") }}) ) );
+	@def $ITEMS = ( @ipfilter( ({{ var.ferm_tpl_srcs | uniq | sort | join(" ") }}) ) );
 	@if @ne($ITEMS,"") {
 		saddr $ITEMS ACCEPT;
 	}
