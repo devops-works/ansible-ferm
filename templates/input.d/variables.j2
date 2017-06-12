@@ -64,3 +64,4 @@
 {%     set _ = ferm_tpl_srcs.append("@resolve(" + src + ")") %}
 {%   endif %}
 {% endfor %}
+{% set ferm_tpl_srcs = ferm_tpl_srcs | sort | unique %}

@@ -33,7 +33,7 @@
 {%     endif -%}
 {%   endfor %}
 
-@def $auto_whitelist = ({{ friends | unique | join(" ") }});
+@def $auto_whitelist = ({{ friends | sort | unique | join(" ") }});
 {% endif %}
 
 {% if ferm_whitelist %}
@@ -42,7 +42,7 @@
 {%-    set _ = friends.append(ip) -%}
 {%   endfor -%}
 
-@def $whitelist = ({{ friends | unique | join(" ") }});
+@def $whitelist = ({{ friends | sort | unique | join(" ") }});
 {% endif %}
 
 {% if ferm_blacklist %}
@@ -51,7 +51,7 @@
 {%-    set _ = foes.append(ip) -%}
 {%   endfor -%}
 
-@def $blacklist = ({{ foes | unique | join(" ") }});
+@def $blacklist = ({{ foes | sort | unique | join(" ") }});
 {% endif %}
 
 {% if ferm_docker %}
