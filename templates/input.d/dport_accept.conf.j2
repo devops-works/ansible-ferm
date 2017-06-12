@@ -22,6 +22,8 @@ Optional:
 
 #}
 
+# { var.ferm_tpl_srcs | uniq | sort | join(" ") }}
+
 {% if var.ferm_tpl_state == 'enabled' %}
 {% if var.ferm_tpl_protocol or item.dport|d() %}protocol ({{ (var.ferm_tpl_protocol if var.ferm_tpl_protocol else ['tcp']) | join(' ') }}){% endif %}{% if item.dport|d() %} dport ({{ item.dport | join(' ') }}){% endif %}{% if var.ferm_tpl_protocol or item.dport|d() %} {% endif %}{
 {% if item.saddr is defined and item.saddr %}
