@@ -6,16 +6,19 @@
     install_recommends: 'no'
   with_items: [ "{{ ferm_packages }}" ]
 
+# Skipping linter since it complains when modes does not start with 0
 - name: Create configuration directories
   file:
     path: '{{ item }}'
-    state: 'directory'
-    owner: 'root'
-    group: 'adm'
-    mode: '2750'
+    state: directory
+    owner: root
+    group: adm
+    mode: 2750
   with_items:
     - '/etc/ferm/ferm.d'
     - '/etc/ferm/filter-input.d'
+  tags:
+  - skip_ansible_lint
 
 - name: Configure ferm default variables
   template:
