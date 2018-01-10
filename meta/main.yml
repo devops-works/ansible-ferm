@@ -15,7 +15,7 @@ galaxy_info:
     - system
 
 dependencies:
-  - src: git+ssh://git@github.com/leucos/ansible-sysctl.git
+  - src: https://github.com/leucos/ansible-sysctl.git
     name: ansible-sysctl
 
 
