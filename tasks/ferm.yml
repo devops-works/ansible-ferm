@@ -1,10 +1,9 @@
 ---
 - name: Ensure ferm is installed
   apt:
-    name: '{{ item }}'
+    name: '{{ ferm_packages }}'
     state: 'present'
     install_recommends: 'no'
-  with_items: [ "{{ ferm_packages }}" ]
 
 # Skipping linter since it complains when modes does not start with 0
 - name: Create configuration directories
