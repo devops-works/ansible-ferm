@@ -1,4 +1,4 @@
-***MOVED TO https://github.com/devops-works/ansible-ferm/**
+**MOVED TO https://github.com/devops-works/ansible-ferm/**
 
 # Ansible ferm role
 
