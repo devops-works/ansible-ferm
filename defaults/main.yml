@@ -109,4 +109,4 @@ ferm_internal_interfaces: [ 'eth1' ]
 ferm_blacklist: false
 ferm_whitelist: false
 
-ferm_skip_restart_handlers: false
+ferm_enable_restart_handler: true

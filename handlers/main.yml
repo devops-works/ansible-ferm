@@ -1,4 +1,4 @@
 - name: Restart ferm
   service: name=ferm state=restarted
   when:
-      - ferm_skip_restart_handlers | default("false") == "false"
+      - ferm_enable_restart_handler
