@@ -1,5 +1,10 @@
+---
 - include_task: check_vars.yml
-  tags: ["ferm","check"]
+  tags:
+    - ferm
+    - check
 
 - include_task: ferm.yml
-  tags: ["ferm"]
+  tags:
+    - ferm
+
