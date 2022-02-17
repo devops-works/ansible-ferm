@@ -5,10 +5,13 @@
       tags:
         - ferm
         - check
+  tags:
+    - always
 
 - include_tasks:
     file: ferm.yml
     apply:
       tags:
         - ferm
-
+  tags:
+    - always
