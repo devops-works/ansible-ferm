@@ -48,7 +48,7 @@
 {# Check if saddr is a real IP or a group name #}
 {% set ferm_tpl_srcs = [] %}
 {% for src in item.saddr %}
-{%   if src | ipaddr %}
+{%   if src | ansible.utils.ipaddr %}
 {#     this is an IP #}
 {%     set _ = ferm_tpl_srcs.append(src) %}
 {%   elif src in groups %}
